@@ -1,0 +1,7 @@
+*.lock.hcl
+.terraform
+images/
+certs/
+k3net*
+scrap/*
+terraform.tfs*
