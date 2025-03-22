@@ -46,16 +46,22 @@ The project is organized as follows:
 ## Usage
 
 Clone this repository and cd into it:
- ```bash
+ ```
    cd terraform-libvirt-k3s
 ```
 
 Initialize Terraform:
-```bash terraform init ```
+```
+terraform init 
+```
 
 Roll out:
-```bash terraform apply ```
+```
+terraform apply 
+```
 
 To destroy the infrastructure:
-```bash terraform destroy ```
+```
+terraform destroy 
+```
 
