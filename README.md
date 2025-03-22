@@ -26,10 +26,9 @@ Before using this Terraform configuration, ensure you have the following:
 3. **SSH Key**: An SSH key pair for accessing the nodes. By default, the public key is expected at `~/.ssh/id_ed25519.pub`.
 4. **QEMU/KVM**: Ensure QEMU/KVM is installed and configured.
 
----
-
 ## Project Structure
 
+```
 The project is organized as follows:
 .
 ├── main.tf         # Main Terraform configuration
@@ -40,15 +39,16 @@ The project is organized as follows:
 │   ├── base_image/ # Module to download and manage the base image
 │   ├── control_node/ # Module to create the control node
 │   └── worker_node/ # Module to create worker nodes
-
+```
 
 ---
 
 ## Usage
 
- Clone this repository and cd into it:
-   ```bash
+Clone this repository and cd into it:
+ ```bash
    cd terraform-libvirt-k3s
+```
 
 Initialize Terraform:
 ```bash terraform init ```
