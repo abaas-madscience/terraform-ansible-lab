@@ -44,6 +44,13 @@ package_update: true
 package_upgrade: true
 
 runcmd:
+runcmd:
+  - mkdir -p /etc/systemd/resolved.conf.d
+  - bash -c "echo '[Resolve]' > /etc/systemd/resolved.conf.d/lab.conf"
+  - bash -c "echo 'DNS=192.168.178.2' >> /etc/systemd/resolved.conf.d/lab.conf"
+  - bash -c "echo 'Domains=lab.local' >> /etc/systemd/resolved.conf.d/lab.conf"
+  - bash -c "echo 'FallbackDNS=1.1.1.1' >> /etc/systemd/resolved.conf.d/lab.conf"
+  - systemctl restart systemd-resolved
   - apt-get -y autoremove
   - apt-get -y clean
   - reboot
