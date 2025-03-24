@@ -15,10 +15,13 @@ version: 2
 ethernets:
   ens3:
     dhcp4: false
+    dhcp6: false
     addresses: [${each.value}/24]
     gateway4: ${var.network_config.gateway}
     nameservers:
       addresses: ${jsonencode(var.network_config.dns_servers)}
+    accept-ra: false
+    link-local: []      
 EOF
 }
 
@@ -44,16 +47,22 @@ package_update: true
 package_upgrade: true
 
 runcmd:
-runcmd:
   - mkdir -p /etc/systemd/resolved.conf.d
   - bash -c "echo '[Resolve]' > /etc/systemd/resolved.conf.d/lab.conf"
   - bash -c "echo 'DNS=192.168.178.2' >> /etc/systemd/resolved.conf.d/lab.conf"
   - bash -c "echo 'Domains=lab.local' >> /etc/systemd/resolved.conf.d/lab.conf"
   - bash -c "echo 'FallbackDNS=1.1.1.1' >> /etc/systemd/resolved.conf.d/lab.conf"
   - systemctl restart systemd-resolved
+  - bash -c "echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
+  - bash -c "echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
+  - bash -c "echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
+  - sysctl --system
   - apt-get -y autoremove
   - apt-get -y clean
+  - apt install qemu-guest-agent -y
+  - systemctl enable --now qemu-guest-agent
   - reboot
+
 EOF
   }
 
@@ -85,7 +94,7 @@ resource "libvirt_domain" "worker" {
 
   name   = each.key
   memory = 4096
-  vcpu   = 8
+  vcpu   = 16
 
   disk {
     volume_id = libvirt_volume.worker_disk[each.key].id
