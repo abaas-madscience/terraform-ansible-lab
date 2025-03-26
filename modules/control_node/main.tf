@@ -24,6 +24,7 @@ ethernets:
 EOF
 }
 
+
 data "cloudinit_config" "control" {
   gzip          = false
   base64_encode = false
@@ -37,6 +38,7 @@ users:
   - name: oscar
     ssh-authorized-keys:
       - ${file(var.ssh_key_path)}
+      - ${file(var.ssh_authorized_path)}
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 
@@ -86,7 +88,7 @@ resource "libvirt_cloudinit_disk" "control_ci" {
 resource "libvirt_domain" "control" {
   name   = "control"
   memory = 8192 # in MB
-  vcpu   = 16
+  vcpu   = 4
 
   disk {
     volume_id = libvirt_volume.vm_disk_control.id
@@ -100,6 +102,10 @@ resource "libvirt_domain" "control" {
 
   graphics {
     type = "vnc"
+  }
+
+  cpu {
+    mode = "host-passthrough"
   }
 
   console {

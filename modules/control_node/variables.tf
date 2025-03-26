@@ -10,6 +10,10 @@ variable "ssh_key_path" {
   type = string
 }
 
+variable "ssh_authorized_path" {
+  type = string
+}
+
 variable "network_config" {
   type = object({
     ip_address = string

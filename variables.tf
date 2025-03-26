@@ -6,7 +6,12 @@ variable "pool_name" {
 }
 
 variable "ssh_key_path" {
-  default = "~/.ssh/id_ed25519.pub"
+  default = "~/.ssh/id_ed25519.pub"  
+}
+
+# Make sure you only have one SSH key in authorized hosts
+variable "ssh_authorized_path" {
+  default = "~/.ssh/authorized_keys"  
 }
 
 variable "workers" {
@@ -16,4 +21,12 @@ variable "workers" {
     "worker-03" = "192.168.178.103"
     "worker-04" = "192.168.178.104"
   }
+}
+
+variable "raw_image_path" {
+  default = "./images/base-ubuntu-jammy.raw"
+}
+
+variable "raw_image_size" {
+  default = "50G"
 }

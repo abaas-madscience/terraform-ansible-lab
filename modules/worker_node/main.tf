@@ -40,6 +40,7 @@ users:
   - name: oscar
     ssh-authorized-keys:
       - ${file(var.ssh_key_path)}
+      - ${file(var.ssh_authorized_path)}
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 
@@ -94,7 +95,7 @@ resource "libvirt_domain" "worker" {
 
   name   = each.key
   memory = 4096
-  vcpu   = 16
+  vcpu   = 4
 
   disk {
     volume_id = libvirt_volume.worker_disk[each.key].id
@@ -108,6 +109,10 @@ resource "libvirt_domain" "worker" {
 
   graphics {
     type = "vnc"
+  }
+
+  cpu {
+    mode = "host-passthrough"
   }
 
   console {
