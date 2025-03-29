@@ -1,4 +1,4 @@
-variable "base_volume_id" {
+variable "raw_image_path" {
   type = string
 }
 

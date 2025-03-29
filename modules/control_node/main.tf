@@ -56,9 +56,7 @@ runcmd:
   - bash -c "echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
   - bash -c "echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
   - sysctl --system
-  - apt-get -y autoremove
-  - apt-get -y clean
-  - apt install qemu-guest-agent -y
+  - pacman -Syu --noconfirm
   - systemctl enable --now qemu-guest-agent
   - reboot
 
@@ -72,10 +70,10 @@ EOF
 }
 
 resource "libvirt_volume" "vm_disk_control" {
-  name           = "control.qcow2"
+  name           = "control-arch.raw"
   pool           = var.pool_name
-  base_volume_id = var.base_volume_id
-  size           = 53687091200  # 50GB in bytes
+  source         = var.raw_image_path
+  format         = "raw"  
 }
 
 resource "libvirt_cloudinit_disk" "control_ci" {

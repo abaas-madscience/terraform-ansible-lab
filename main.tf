@@ -20,7 +20,7 @@ module "base_image" {
 
 module "control_node" {
   source = "./modules/control_node"
-  base_volume_id = module.base_image.base_volume_id
+  raw_image_path = var.raw_image_path
   pool_name = var.pool_name
   ssh_key_path = var.ssh_key_path
   ssh_authorized_path = var.ssh_authorized_path
@@ -33,7 +33,7 @@ module "control_node" {
 
 module "worker_nodes" {
   source = "./modules/worker_node"
-  base_volume_id = module.base_image.base_volume_id
+  raw_image_path = var.raw_image_path
   pool_name = var.pool_name
   ssh_key_path = var.ssh_key_path
   ssh_authorized_path = var.ssh_authorized_path

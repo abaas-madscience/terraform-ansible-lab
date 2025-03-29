@@ -24,7 +24,7 @@ variable "workers" {
 }
 
 variable "raw_image_path" {
-  default = "./images/base-ubuntu-jammy.raw"
+  default = "./images/golden-arch.raw"
 }
 
 variable "raw_image_size" {

@@ -84,10 +84,11 @@ resource "libvirt_cloudinit_disk" "worker_ci" {
 resource "libvirt_volume" "worker_disk" {
   for_each = var.workers
 
-  name           = "${each.key}.qcow2"
+  name           = "${each.key}-arch.raw"
   pool           = var.pool_name
-  base_volume_id = var.base_volume_id
-  size           = 53687091200  # 50GB in bytes
+  source         = var.raw_image_path
+  format         = "raw"
+
 }
 
 resource "libvirt_domain" "worker" {
