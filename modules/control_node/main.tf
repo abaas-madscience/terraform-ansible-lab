@@ -56,6 +56,9 @@ runcmd:
   - bash -c "echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
   - bash -c "echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.d/99-disable-ipv6.conf"
   - sysctl --system
+  - swapoff -a
+  - rm -f /swapfile
+  - sed -i '/swap/d' /etc/fstab
   - pacman -Syu --noconfirm
   - systemctl enable --now qemu-guest-agent
   - reboot
